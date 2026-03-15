@@ -33,12 +33,9 @@ namespace LabHotelManagment
             LoadReservationPage();
         }
 
-  
-
         private void LoadReservationPage()
         {
             //data bindings for list
-
             BSResv.DataSource = Context.Reservations.Local.ToBindingList();
 
             BSGuest.DataSource = BSResv;
@@ -48,40 +45,33 @@ namespace LabHotelManagment
             BSRoom.DataMember = "Room";
 
             //bind with class ListDisplay for proper display
-            var LDisp = Context.Reservations.Local.
-                                Select(R => new ListDisplay()
-                                {
-                                    DisplayMember = $"{R.Guest.Fname} {R.Guest.Lname} {R.RoomNumber}"
-                                ,
-                                    ReservationID = R.ReservationID,
-                                    Reservation = R
-                                })
-                                .ToList();
+            lst_Reservations.DataSource = BSResv;
 
-            lst_Reservations.DataSource = LDisp;
-            lst_Reservations.DisplayMember = "DisplayMember";
-            lst_Reservations.ValueMember = "ReservationID";
-
-            //add binding for BSResv
-            lst_Reservations.DataBindings.Add("SelectedValue", BSResv, "ReservationID", true, DataSourceUpdateMode.OnPropertyChanged);
-
-            //Simple data binding controls
+            //Simple data binding controls bind with nested BS
             txt_fname.DataBindings.Add("Text", BSGuest, "Fname");
             txt_lname.DataBindings.Add("Text", BSGuest, "Lname");
             txt_pno.DataBindings.Add("Text", BSGuest, "PhoneNo");
-            CBox_gender.DataSource = new List<Gender>() { Gender.Male, Gender.Female};
-            CBox_gender.DataBindings.Add("SelectedItem",BSGuest,"Gender");
-            DTpicker_Bdate.DataBindings.Add("Value",BSGuest,"Bday");
+            DTpicker_Bdate.DataBindings.Add("Value", BSGuest, "Bday");
+            ChkboxFood.DataBindings.Add("Checked", BSResv, "withFood");
 
+            //cboxes bind with fk
+            CBox_gender.DataSource = new List<Gender>() { Gender.Male, Gender.Female };
+            CBox_gender.DataBindings.Add("SelectedItem", BSGuest, "Gender");
+
+            Cbox_Roomtype.DataSource = Context.Rooms.Local.DistinctBy(R => R.Type).ToList();
+            Cbox_Roomtype.DisplayMember = "Type";
+            Cbox_Roomtype.ValueMember = "Type";
+            Cbox_Roomtype.DataBindings.Add("SelectedValue", BSRoom, "Type");
+
+            
             CBox_RoomNo.DataSource = Context.Rooms.Local.ToList();
             CBox_RoomNo.DisplayMember = "RoomNumber";
             CBox_RoomNo.ValueMember = "RoomNumber";
+            CBox_RoomNo.DataBindings.Add("SelectedValue", BSRoom, "RoomNumber");
 
-            CBox_RoomNo.DataBindings.Add("SelectedItem", BSRoom, "RoomNumber");
-            Cbox_Roomtype.DataSource = Context.Rooms.Local.DistinctBy(R=>R.Type).ToList();
-            Cbox_Roomtype.DisplayMember = "Type";
-            Cbox_Roomtype.DataBindings.Add("SelectedItem", BSRoom, "Type");
 
+            DTPicker_CheckinDate.DataBindings.Add("Value", BSResv, "From");
+            DTPicker_CheckOutDate.DataBindings.Add("Value", BSResv, "To");
         }
 
         private void loadGridView()
@@ -109,17 +99,12 @@ namespace LabHotelManagment
 
         private void btn_newreservation_Click(object sender, EventArgs e)
         {
-            txt_fname.Clear();
-            txt_lname.Clear();
-            txt_pno.Clear();
+            this.Hide();
+            frmNewReservation NewResv = new(Context);
+            NewResv.FormClosing += (s, e) => this.Show();
+            NewResv.Show();
         }
 
-        private void btn_submitdata_Click(object sender, EventArgs e)
-        {
-            //Guest NewG = new() { Fname = txt_fname.Text,
-            //                     Lname = txt_lname.Text,
-            //                     Gender = CBox_gender.va}
-        }
 
         private void FixDatePickerFormats()
         {
@@ -127,18 +112,17 @@ namespace LabHotelManagment
             DTpicker_Bdate.CustomFormat = "dd/MM/yyyy";
             DTPicker_CheckinDate.Format = DateTimePickerFormat.Custom;
             DTPicker_CheckinDate.CustomFormat = "dd/MM/yyyy";
-            DTPicker_CheckOut.Format = DateTimePickerFormat.Custom;
-            DTPicker_CheckOut.CustomFormat = "dd/MM/yyyy";
+            DTPicker_CheckOutDate.Format = DateTimePickerFormat.Custom;
+            DTPicker_CheckOutDate.CustomFormat = "dd/MM/yyyy";
         }
+
+
+
+
+
+
     }
 
-    public class ListDisplay
-    {
-        public int ReservationID { set; get; }
-        public string DisplayMember { set; get; }
-
-        public Reservation Reservation { set; get; }
-    }
 
 
 }

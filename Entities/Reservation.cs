@@ -17,5 +17,8 @@ namespace LabHotelManagment.Entities
         public bool withFood { set; get; }
         public DateTime From { set; get; }
         public DateTime To { set; get; }
+
+        public override string ToString() => $"{Guest.Fname} {Guest.Lname} {RoomNumber}";
+        
     }
 }

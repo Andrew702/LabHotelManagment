@@ -30,10 +30,11 @@
         {
             TabControl = new TabControl();
             tabReservation = new TabPage();
+            ChkboxFood = new CheckBox();
             btn_moveNext = new Button();
             btn_moveprev = new Button();
             lst_Reservations = new ListBox();
-            DTPicker_CheckOut = new DateTimePicker();
+            DTPicker_CheckOutDate = new DateTimePicker();
             DTPicker_CheckinDate = new DateTimePicker();
             DTpicker_Bdate = new DateTimePicker();
             CBox_RoomNo = new ComboBox();
@@ -43,7 +44,6 @@
             btn_deletereservation = new Button();
             btn_newreservation = new Button();
             btn_foodandmenu = new Button();
-            btn_submitdata = new Button();
             btn_finalizebill = new Button();
             label1 = new Label();
             label4 = new Label();
@@ -57,6 +57,8 @@
             tabViewRes = new TabPage();
             grd_guests = new DataGridView();
             sqlCommand1 = new Microsoft.Data.SqlClient.SqlCommand();
+            lbl_Roomtype = new Label();
+            lbl_Roomno = new Label();
             TabControl.SuspendLayout();
             tabReservation.SuspendLayout();
             tabViewRes.SuspendLayout();
@@ -75,10 +77,11 @@
             // 
             // tabReservation
             // 
+            tabReservation.Controls.Add(ChkboxFood);
             tabReservation.Controls.Add(btn_moveNext);
             tabReservation.Controls.Add(btn_moveprev);
             tabReservation.Controls.Add(lst_Reservations);
-            tabReservation.Controls.Add(DTPicker_CheckOut);
+            tabReservation.Controls.Add(DTPicker_CheckOutDate);
             tabReservation.Controls.Add(DTPicker_CheckinDate);
             tabReservation.Controls.Add(DTpicker_Bdate);
             tabReservation.Controls.Add(CBox_RoomNo);
@@ -88,13 +91,14 @@
             tabReservation.Controls.Add(btn_deletereservation);
             tabReservation.Controls.Add(btn_newreservation);
             tabReservation.Controls.Add(btn_foodandmenu);
-            tabReservation.Controls.Add(btn_submitdata);
             tabReservation.Controls.Add(btn_finalizebill);
             tabReservation.Controls.Add(label1);
             tabReservation.Controls.Add(label4);
             tabReservation.Controls.Add(label2);
             tabReservation.Controls.Add(label6);
             tabReservation.Controls.Add(label5);
+            tabReservation.Controls.Add(lbl_Roomno);
+            tabReservation.Controls.Add(lbl_Roomtype);
             tabReservation.Controls.Add(label3);
             tabReservation.Controls.Add(txt_pno);
             tabReservation.Controls.Add(txt_lname);
@@ -106,6 +110,17 @@
             tabReservation.TabIndex = 0;
             tabReservation.Text = "Reservation";
             tabReservation.UseVisualStyleBackColor = true;
+            // 
+            // ChkboxFood
+            // 
+            ChkboxFood.AutoSize = true;
+            ChkboxFood.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            ChkboxFood.Location = new Point(426, 330);
+            ChkboxFood.Name = "ChkboxFood";
+            ChkboxFood.Size = new Size(73, 29);
+            ChkboxFood.TabIndex = 17;
+            ChkboxFood.Text = "Food";
+            ChkboxFood.UseVisualStyleBackColor = true;
             // 
             // btn_moveNext
             // 
@@ -138,15 +153,15 @@
             lst_Reservations.Size = new Size(223, 298);
             lst_Reservations.TabIndex = 14;
             // 
-            // DTPicker_CheckOut
+            // DTPicker_CheckOutDate
             // 
-            DTPicker_CheckOut.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            DTPicker_CheckOut.Format = DateTimePickerFormat.Short;
-            DTPicker_CheckOut.Location = new Point(353, 274);
-            DTPicker_CheckOut.Name = "DTPicker_CheckOut";
-            DTPicker_CheckOut.Size = new Size(225, 33);
-            DTPicker_CheckOut.TabIndex = 13;
-            DTPicker_CheckOut.Value = new DateTime(2026, 3, 15, 0, 0, 0, 0);
+            DTPicker_CheckOutDate.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            DTPicker_CheckOutDate.Format = DateTimePickerFormat.Short;
+            DTPicker_CheckOutDate.Location = new Point(353, 274);
+            DTPicker_CheckOutDate.Name = "DTPicker_CheckOutDate";
+            DTPicker_CheckOutDate.Size = new Size(225, 33);
+            DTPicker_CheckOutDate.TabIndex = 13;
+            DTPicker_CheckOutDate.Value = new DateTime(2026, 3, 15, 0, 0, 0, 0);
             // 
             // DTPicker_CheckinDate
             // 
@@ -170,7 +185,7 @@
             // 
             CBox_RoomNo.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             CBox_RoomNo.FormattingEnabled = true;
-            CBox_RoomNo.Location = new Point(353, 100);
+            CBox_RoomNo.Location = new Point(90, 442);
             CBox_RoomNo.Name = "CBox_RoomNo";
             CBox_RoomNo.Size = new Size(225, 33);
             CBox_RoomNo.TabIndex = 12;
@@ -180,7 +195,7 @@
             // 
             Cbox_Roomtype.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Cbox_Roomtype.FormattingEnabled = true;
-            Cbox_Roomtype.Location = new Point(353, 54);
+            Cbox_Roomtype.Location = new Point(80, 386);
             Cbox_Roomtype.Name = "Cbox_Roomtype";
             Cbox_Roomtype.Size = new Size(225, 33);
             Cbox_Roomtype.TabIndex = 12;
@@ -230,28 +245,17 @@
             // btn_foodandmenu
             // 
             btn_foodandmenu.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btn_foodandmenu.Location = new Point(353, 413);
+            btn_foodandmenu.Location = new Point(366, 413);
             btn_foodandmenu.Name = "btn_foodandmenu";
             btn_foodandmenu.Size = new Size(198, 39);
             btn_foodandmenu.TabIndex = 10;
             btn_foodandmenu.Text = "Food and Menu";
             btn_foodandmenu.UseVisualStyleBackColor = true;
             // 
-            // btn_submitdata
-            // 
-            btn_submitdata.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btn_submitdata.Location = new Point(353, 503);
-            btn_submitdata.Name = "btn_submitdata";
-            btn_submitdata.Size = new Size(198, 39);
-            btn_submitdata.TabIndex = 10;
-            btn_submitdata.Text = "Submit";
-            btn_submitdata.UseVisualStyleBackColor = true;
-            btn_submitdata.Click += btn_submitdata_Click;
-            // 
             // btn_finalizebill
             // 
             btn_finalizebill.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btn_finalizebill.Location = new Point(353, 458);
+            btn_finalizebill.Location = new Point(366, 458);
             btn_finalizebill.Name = "btn_finalizebill";
             btn_finalizebill.Size = new Size(198, 39);
             btn_finalizebill.TabIndex = 10;
@@ -323,27 +327,27 @@
             txt_pno.Font = new Font("Segoe UI", 14.25F);
             txt_pno.Location = new Point(19, 230);
             txt_pno.Name = "txt_pno";
+            txt_pno.PlaceholderText = "Phone Number";
             txt_pno.Size = new Size(225, 33);
             txt_pno.TabIndex = 1;
-            txt_pno.Text = "Phone Number";
             // 
             // txt_lname
             // 
             txt_lname.Font = new Font("Segoe UI", 14.25F);
             txt_lname.Location = new Point(19, 100);
             txt_lname.Name = "txt_lname";
+            txt_lname.PlaceholderText = "Last Name";
             txt_lname.Size = new Size(225, 33);
             txt_lname.TabIndex = 1;
-            txt_lname.Text = "Last Name";
             // 
             // txt_fname
             // 
             txt_fname.Font = new Font("Segoe UI", 14.25F);
             txt_fname.Location = new Point(19, 54);
             txt_fname.Name = "txt_fname";
+            txt_fname.PlaceholderText = "First Name";
             txt_fname.Size = new Size(225, 33);
             txt_fname.TabIndex = 1;
-            txt_fname.Text = "First Name";
             // 
             // tabViewRes
             // 
@@ -370,6 +374,26 @@
             sqlCommand1.CommandTimeout = 30;
             sqlCommand1.EnableOptimizedParameterBinding = false;
             // 
+            // lbl_Roomtype
+            // 
+            lbl_Roomtype.AutoSize = true;
+            lbl_Roomtype.Font = new Font("Segoe UI", 14.25F);
+            lbl_Roomtype.Location = new Point(426, 54);
+            lbl_Roomtype.Name = "lbl_Roomtype";
+            lbl_Roomtype.Size = new Size(104, 25);
+            lbl_Roomtype.TabIndex = 9;
+            lbl_Roomtype.Text = "Room Type";
+            // 
+            // lbl_Roomno
+            // 
+            lbl_Roomno.AutoSize = true;
+            lbl_Roomno.Font = new Font("Segoe UI", 14.25F);
+            lbl_Roomno.Location = new Point(426, 103);
+            lbl_Roomno.Name = "lbl_Roomno";
+            lbl_Roomno.Size = new Size(90, 25);
+            lbl_Roomno.TabIndex = 9;
+            lbl_Roomno.Text = "Room No";
+            // 
             // frmFrontend
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -393,7 +417,6 @@
         private TextBox txt_fname;
         private TabPage tabViewRes;
         private TextBox txt_pno;
-        private TextBox txt_lname;
         private Microsoft.Data.SqlClient.SqlCommand sqlCommand1;
         private Button btn_finalizebill;
         private DataGridView grd_guests;
@@ -402,13 +425,12 @@
         private Button btn_deletereservation;
         private Button btn_newreservation;
         private Button btn_foodandmenu;
-        private Button btn_submitdata;
         private Label label1;
         private Label label2;
         private Label label4;
         private ComboBox Cbox_Roomtype;
         private ComboBox CBox_gender;
-        private DateTimePicker DTPicker_CheckOut;
+        private DateTimePicker DTPicker_CheckOutDate;
         private DateTimePicker DTPicker_CheckinDate;
         private DateTimePicker DTpicker_Bdate;
         private Label label6;
@@ -417,5 +439,9 @@
         private ComboBox CBox_RoomNo;
         private Button btn_moveNext;
         private Button btn_moveprev;
+        private CheckBox ChkboxFood;
+        private TextBox txt_lname;
+        private Label lbl_Roomno;
+        private Label lbl_Roomtype;
     }
 }
