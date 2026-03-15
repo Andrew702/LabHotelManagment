@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace LabHotelManagment.Login_Models
+{
+    public partial class Kitchen
+    {
+        public override int GetHashCode() => HashCode.Combine(UserName, PassWord);
+        public override bool Equals(object? obj)
+        {
+            if (obj is Kitchen other && other != null)
+                return UserName.Equals(other.UserName) && PassWord.Equals(other.PassWord);
+            else
+                return false;
+        }
+    }
+}
