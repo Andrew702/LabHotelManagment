@@ -87,7 +87,10 @@ namespace LabHotelManagment.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int>("ReservationID")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReservationID"));
 
                     b.Property<DateTime>("To")
                         .HasColumnType("datetime2");
@@ -105,10 +108,7 @@ namespace LabHotelManagment.Migrations
             modelBuilder.Entity("LabHotelManagment.Entities.Room", b =>
                 {
                     b.Property<int>("RoomNumber")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoomNumber"));
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
@@ -130,7 +130,7 @@ namespace LabHotelManagment.Migrations
                         .IsRequired();
 
                     b.HasOne("LabHotelManagment.Entities.Room", "Room")
-                        .WithMany()
+                        .WithMany("Reservations")
                         .HasForeignKey("RoomNumber")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -138,6 +138,11 @@ namespace LabHotelManagment.Migrations
                     b.Navigation("Guest");
 
                     b.Navigation("Room");
+                });
+
+            modelBuilder.Entity("LabHotelManagment.Entities.Room", b =>
+                {
+                    b.Navigation("Reservations");
                 });
 #pragma warning restore 612, 618
         }

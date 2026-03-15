@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace LabHotelManagment.Migrations
 {
     /// <inheritdoc />
-    public partial class AddTableswithConstraints : Migration
+    public partial class Addtables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -45,8 +45,7 @@ namespace LabHotelManagment.Migrations
                 name: "Rooms",
                 columns: table => new
                 {
-                    RoomNumber = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoomNumber = table.Column<int>(type: "int", nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false),
                     floor = table.Column<int>(type: "int", nullable: false)
                 },
@@ -61,7 +60,8 @@ namespace LabHotelManagment.Migrations
                 {
                     GuestID = table.Column<int>(type: "int", nullable: false),
                     RoomNumber = table.Column<int>(type: "int", nullable: false),
-                    ReservationID = table.Column<int>(type: "int", nullable: false),
+                    ReservationID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     withFood = table.Column<bool>(type: "bit", nullable: false),
                     From = table.Column<DateTime>(type: "datetime2", nullable: false),
                     To = table.Column<DateTime>(type: "datetime2", nullable: false)

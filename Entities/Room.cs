@@ -19,10 +19,12 @@ namespace LabHotelManagment.Entities
     public class Room
     {
         [Key]
-        public int RoomNumber { set; get; }
+        public required int RoomNumber { set; get; }
 
         public required RoomType Type { set; get; }    //single and double options only
 
         public int floor { set; get; }
+
+        public virtual ICollection<Reservation> Reservations { set; get; } = new List<Reservation>();
     }
 }
