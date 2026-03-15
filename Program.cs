@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-
 namespace LabHotelManagment
 {
     internal static class Program

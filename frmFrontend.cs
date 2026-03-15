@@ -1,4 +1,4 @@
-﻿using LabHotelManagment.Reservation_Models;
+﻿using LabHotelManagment.Context;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,10 +10,10 @@ using System.Windows.Forms;
 
 namespace LabHotelManagment
 {
-    
+
     public partial class frmFrontend : Form
     {
-        Reservation_Context Context = new();
+        HotelContext Context = new();
         BindingSource BSgrd = new();
         public frmFrontend()
         {
@@ -26,9 +26,9 @@ namespace LabHotelManagment
 
         private void loadGridView()
         {
-            Context.Reservations.Load();
-            BSgrd.DataSource = Context.Reservations.Local.ToBindingList();
-            grd_guests.DataSource = BSgrd;
+            //Context.Reservations.Load();
+            //BSgrd.DataSource = Context.Reservations.Local.ToBindingList();
+            //grd_guests.DataSource = BSgrd;
         }
 
 

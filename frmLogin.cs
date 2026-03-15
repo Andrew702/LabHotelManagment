@@ -1,15 +1,17 @@
-using LabHotelManagment.Login_Models;
+using LabHotelManagment.Context;
+using LabHotelManagment.Entities;
 using Microsoft.VisualBasic;
 
 namespace LabHotelManagment
 {
     public partial class frmLogin : Form
     {
-        Login_Context Context = new();
+        HotelContext Context = new();
         public frmLogin()
         {
             InitializeComponent();
             this.FormClosed += (s, e) => Context.Dispose();
+            this.StartPosition = FormStartPosition.CenterScreen;
         }
         private void btn_Exit_Click(object sender, EventArgs e)
         {
@@ -26,19 +28,26 @@ namespace LabHotelManagment
         {
             try
             {
-                Frontend CREDF = new() { UserName = txt_username.Text, PassWord = txt_password.Text };
-                Kitchen CREDK = new() { UserName = txt_username.Text, PassWord = txt_password.Text };
-                if(Context.Frontends.AsEnumerable().Where(t=>t.Equals(CREDF)).Count()==1)
+                var Cred = Context.Logins.Where(t => t.Username.Equals(txt_username.Text)).FirstOrDefault();
+                if (Cred!= null && Cred.Password.Equals(txt_password.Text))
                 {
-                    this.Hide();
-                    frmFrontend hotel_management = new();
-                    hotel_management.Show();
-                }
-                else if(Context.Kitchens.AsEnumerable().Where(t=>t.Equals(CREDK)).Count()==1)
-                {
-                    this.Hide();
-                    frmKitchen kitchen_managment = new();
-                    kitchen_managment.Show();
+                    txt_username.Clear();
+                    txt_password.Clear();
+                    if (Cred.AccType == AccType.Reservation)
+                    {
+                        this.Hide();
+                        frmFrontend hotel_management = new();
+                        hotel_management.FormClosed += (s, e) => this.Show();
+                        hotel_management.Show();
+                    }
+                    else
+                    {
+                        this.Hide();
+                        frmKitchen kitchen_managment = new();
+                        kitchen_managment.FormClosed += (s, e) => this.Show();
+                        kitchen_managment.Show();
+                    }
+
                 }
                 else
                 {
