@@ -77,20 +77,23 @@ namespace LabHotelManagment.Migrations
 
             modelBuilder.Entity("LabHotelManagment.Entities.Reservation", b =>
                 {
-                    b.Property<int>("GuestID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RoomNumber")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("From")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("ReservationID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReservationID"));
+
+                    b.Property<DateTime>("From")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("GuestID")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("MealDeliveredFlag")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("RoomNumber")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("To")
                         .HasColumnType("datetime2");
@@ -98,7 +101,9 @@ namespace LabHotelManagment.Migrations
                     b.Property<bool>("withFood")
                         .HasColumnType("bit");
 
-                    b.HasKey("GuestID", "RoomNumber");
+                    b.HasKey("ReservationID");
+
+                    b.HasIndex("GuestID");
 
                     b.HasIndex("RoomNumber");
 

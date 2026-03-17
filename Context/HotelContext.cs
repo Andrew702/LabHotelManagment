@@ -18,9 +18,7 @@ namespace LabHotelManagment.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Reservation>().HasKey(K => new { K.GuestID, K.RoomNumber });
             modelBuilder.Entity<Room>().Property(r => r.RoomNumber).ValueGeneratedNever();  //key is not identity
-            modelBuilder.Entity<Reservation>().Property(r => r.ReservationID).ValueGeneratedOnAdd(); //ReservationID is Identity
         }
 
     }

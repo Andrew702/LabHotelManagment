@@ -37,19 +37,18 @@
             DTPicker_CheckOutDate = new DateTimePicker();
             DTPicker_CheckinDate = new DateTimePicker();
             DTpicker_Bdate = new DateTimePicker();
-            CBox_RoomNo = new ComboBox();
-            Cbox_Roomtype = new ComboBox();
             CBox_gender = new ComboBox();
             btn_updatereservation = new Button();
             btn_deletereservation = new Button();
             btn_newreservation = new Button();
-            btn_foodandmenu = new Button();
             btn_finalizebill = new Button();
             label1 = new Label();
             label4 = new Label();
             label2 = new Label();
             label6 = new Label();
             label5 = new Label();
+            lbl_Roomno = new Label();
+            lbl_Roomtype = new Label();
             label3 = new Label();
             txt_pno = new TextBox();
             txt_lname = new TextBox();
@@ -57,8 +56,6 @@
             tabViewRes = new TabPage();
             grd_guests = new DataGridView();
             sqlCommand1 = new Microsoft.Data.SqlClient.SqlCommand();
-            lbl_Roomtype = new Label();
-            lbl_Roomno = new Label();
             TabControl.SuspendLayout();
             tabReservation.SuspendLayout();
             tabViewRes.SuspendLayout();
@@ -84,13 +81,10 @@
             tabReservation.Controls.Add(DTPicker_CheckOutDate);
             tabReservation.Controls.Add(DTPicker_CheckinDate);
             tabReservation.Controls.Add(DTpicker_Bdate);
-            tabReservation.Controls.Add(CBox_RoomNo);
-            tabReservation.Controls.Add(Cbox_Roomtype);
             tabReservation.Controls.Add(CBox_gender);
             tabReservation.Controls.Add(btn_updatereservation);
             tabReservation.Controls.Add(btn_deletereservation);
             tabReservation.Controls.Add(btn_newreservation);
-            tabReservation.Controls.Add(btn_foodandmenu);
             tabReservation.Controls.Add(btn_finalizebill);
             tabReservation.Controls.Add(label1);
             tabReservation.Controls.Add(label4);
@@ -181,26 +175,6 @@
             DTpicker_Bdate.Size = new Size(225, 33);
             DTpicker_Bdate.TabIndex = 13;
             // 
-            // CBox_RoomNo
-            // 
-            CBox_RoomNo.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            CBox_RoomNo.FormattingEnabled = true;
-            CBox_RoomNo.Location = new Point(90, 442);
-            CBox_RoomNo.Name = "CBox_RoomNo";
-            CBox_RoomNo.Size = new Size(225, 33);
-            CBox_RoomNo.TabIndex = 12;
-            CBox_RoomNo.Text = "RoomNo";
-            // 
-            // Cbox_Roomtype
-            // 
-            Cbox_Roomtype.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            Cbox_Roomtype.FormattingEnabled = true;
-            Cbox_Roomtype.Location = new Point(80, 386);
-            Cbox_Roomtype.Name = "Cbox_Roomtype";
-            Cbox_Roomtype.Size = new Size(225, 33);
-            Cbox_Roomtype.TabIndex = 12;
-            Cbox_Roomtype.Text = "RoomType";
-            // 
             // CBox_gender
             // 
             CBox_gender.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -220,6 +194,7 @@
             btn_updatereservation.TabIndex = 10;
             btn_updatereservation.Text = "Update";
             btn_updatereservation.UseVisualStyleBackColor = true;
+            btn_updatereservation.Click += btn_updatereservation_Click;
             // 
             // btn_deletereservation
             // 
@@ -230,6 +205,7 @@
             btn_deletereservation.TabIndex = 10;
             btn_deletereservation.Text = "Delete";
             btn_deletereservation.UseVisualStyleBackColor = true;
+            btn_deletereservation.Click += btn_deletereservation_Click;
             // 
             // btn_newreservation
             // 
@@ -242,25 +218,16 @@
             btn_newreservation.UseVisualStyleBackColor = true;
             btn_newreservation.Click += btn_newreservation_Click;
             // 
-            // btn_foodandmenu
-            // 
-            btn_foodandmenu.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btn_foodandmenu.Location = new Point(366, 413);
-            btn_foodandmenu.Name = "btn_foodandmenu";
-            btn_foodandmenu.Size = new Size(198, 39);
-            btn_foodandmenu.TabIndex = 10;
-            btn_foodandmenu.Text = "Food and Menu";
-            btn_foodandmenu.UseVisualStyleBackColor = true;
-            // 
             // btn_finalizebill
             // 
             btn_finalizebill.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btn_finalizebill.Location = new Point(366, 458);
+            btn_finalizebill.Location = new Point(364, 503);
             btn_finalizebill.Name = "btn_finalizebill";
             btn_finalizebill.Size = new Size(198, 39);
             btn_finalizebill.TabIndex = 10;
             btn_finalizebill.Text = "Finalize bill";
             btn_finalizebill.UseVisualStyleBackColor = true;
+            btn_finalizebill.Click += btn_finalizebill_Click;
             // 
             // label1
             // 
@@ -311,6 +278,28 @@
             label5.Size = new Size(79, 25);
             label5.TabIndex = 9;
             label5.Text = "CheckIn";
+            // 
+            // lbl_Roomno
+            // 
+            lbl_Roomno.BorderStyle = BorderStyle.FixedSingle;
+            lbl_Roomno.Font = new Font("Segoe UI", 14.25F);
+            lbl_Roomno.Location = new Point(353, 100);
+            lbl_Roomno.Name = "lbl_Roomno";
+            lbl_Roomno.Size = new Size(225, 33);
+            lbl_Roomno.TabIndex = 9;
+            lbl_Roomno.Text = "Room No";
+            lbl_Roomno.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Roomtype
+            // 
+            lbl_Roomtype.BorderStyle = BorderStyle.FixedSingle;
+            lbl_Roomtype.Font = new Font("Segoe UI", 14.25F);
+            lbl_Roomtype.Location = new Point(353, 54);
+            lbl_Roomtype.Name = "lbl_Roomtype";
+            lbl_Roomtype.Size = new Size(225, 33);
+            lbl_Roomtype.TabIndex = 9;
+            lbl_Roomtype.Text = "Room Type";
+            lbl_Roomtype.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // label3
             // 
@@ -374,26 +363,6 @@
             sqlCommand1.CommandTimeout = 30;
             sqlCommand1.EnableOptimizedParameterBinding = false;
             // 
-            // lbl_Roomtype
-            // 
-            lbl_Roomtype.AutoSize = true;
-            lbl_Roomtype.Font = new Font("Segoe UI", 14.25F);
-            lbl_Roomtype.Location = new Point(426, 54);
-            lbl_Roomtype.Name = "lbl_Roomtype";
-            lbl_Roomtype.Size = new Size(104, 25);
-            lbl_Roomtype.TabIndex = 9;
-            lbl_Roomtype.Text = "Room Type";
-            // 
-            // lbl_Roomno
-            // 
-            lbl_Roomno.AutoSize = true;
-            lbl_Roomno.Font = new Font("Segoe UI", 14.25F);
-            lbl_Roomno.Location = new Point(426, 103);
-            lbl_Roomno.Name = "lbl_Roomno";
-            lbl_Roomno.Size = new Size(90, 25);
-            lbl_Roomno.TabIndex = 9;
-            lbl_Roomno.Text = "Room No";
-            // 
             // frmFrontend
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -424,11 +393,9 @@
         private Button btn_updatereservation;
         private Button btn_deletereservation;
         private Button btn_newreservation;
-        private Button btn_foodandmenu;
         private Label label1;
         private Label label2;
         private Label label4;
-        private ComboBox Cbox_Roomtype;
         private ComboBox CBox_gender;
         private DateTimePicker DTPicker_CheckOutDate;
         private DateTimePicker DTPicker_CheckinDate;
@@ -436,7 +403,6 @@
         private Label label6;
         private Label label5;
         private ListBox lst_Reservations;
-        private ComboBox CBox_RoomNo;
         private Button btn_moveNext;
         private Button btn_moveprev;
         private CheckBox ChkboxFood;

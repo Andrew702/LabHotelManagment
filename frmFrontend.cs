@@ -1,6 +1,7 @@
 ﻿using LabHotelManagment.Context;
 using LabHotelManagment.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,7 +22,7 @@ namespace LabHotelManagment
 
         public frmFrontend()
         {
-
+            StartPosition = FormStartPosition.CenterScreen;
             this.FormClosed += (s, e) => Context.Dispose();
 
             Context.Reservations.Include(R => R.Guest).
@@ -53,22 +54,13 @@ namespace LabHotelManagment
             txt_pno.DataBindings.Add("Text", BSGuest, "PhoneNo");
             DTpicker_Bdate.DataBindings.Add("Value", BSGuest, "Bday");
             ChkboxFood.DataBindings.Add("Checked", BSResv, "withFood");
+            lbl_Roomtype.DataBindings.Add("Text", BSRoom, "Type");
+            lbl_Roomno.DataBindings.Add("Text", BSRoom, "RoomNumber");
+
 
             //cboxes bind with fk
             CBox_gender.DataSource = new List<Gender>() { Gender.Male, Gender.Female };
             CBox_gender.DataBindings.Add("SelectedItem", BSGuest, "Gender");
-
-            Cbox_Roomtype.DataSource = Context.Rooms.Local.DistinctBy(R => R.Type).ToList();
-            Cbox_Roomtype.DisplayMember = "Type";
-            Cbox_Roomtype.ValueMember = "Type";
-            Cbox_Roomtype.DataBindings.Add("SelectedValue", BSRoom, "Type");
-
-            
-            CBox_RoomNo.DataSource = Context.Rooms.Local.ToList();
-            CBox_RoomNo.DisplayMember = "RoomNumber";
-            CBox_RoomNo.ValueMember = "RoomNumber";
-            CBox_RoomNo.DataBindings.Add("SelectedValue", BSRoom, "RoomNumber");
-
 
             DTPicker_CheckinDate.DataBindings.Add("Value", BSResv, "From");
             DTPicker_CheckOutDate.DataBindings.Add("Value", BSResv, "To");
@@ -116,11 +108,45 @@ namespace LabHotelManagment
             DTPicker_CheckOutDate.CustomFormat = "dd/MM/yyyy";
         }
 
+        private void btn_updatereservation_Click(object sender, EventArgs e)
+        {
+            int RAffected = Context.SaveChanges();
+            MessageBox.Show($"{RAffected} Rows Affected!", "Note", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
 
+        private void btn_deletereservation_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show($"Are you sure to delete?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            {
+                try
+                {
+                    if (BSResv.Current is Reservation Cresv && Cresv != null)
+                    {
+                        Context.Remove(Cresv);
+                        int RAffected = Context.SaveChanges();
+                        MessageBox.Show($"{RAffected} Rows Affected!", "Note", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                        MessageBox.Show($"Error Deleting Reservation Data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch { throw; }
+            }
 
+        }
 
-
-
+        private void btn_finalizebill_Click(object sender, EventArgs e)
+        {
+            if(BSResv.Current is Reservation CurrResv &&  CurrResv != null)
+            {
+                frmpayment NewfrmPayment = new(CurrResv);
+                this.Hide();
+                NewfrmPayment.Show();
+                NewfrmPayment.FormClosed += (s, e) => this.Show();
+            }
+            else
+                MessageBox.Show($"Error Confirming Reservation Data for bill\n Please try again", 
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
     }
 
 

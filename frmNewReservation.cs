@@ -18,20 +18,30 @@ namespace LabHotelManagment
         {
             Context = _Context;
             InitializeComponent();
-            this.FormClosed += (s, e) => Context.Dispose();
+            FixDatePickerFormats();
         }
 
         private void frmNewReservation_Load(object sender, EventArgs e)
         {
             CBox_gender.DataSource = new List<Gender>() { Gender.Male, Gender.Female };
 
-            CBox_RoomNo.DataSource = Context.Rooms.Local.ToList();
-            CBox_RoomNo.DisplayMember = "RoomNumber";
-            CBox_RoomNo.ValueMember = "RoomNumber";
-
             Cbox_Roomtype.DataSource = Context.Rooms.Local.DistinctBy(R => R.Type).ToList();
             Cbox_Roomtype.DisplayMember = "Type";
             Cbox_Roomtype.ValueMember = "Type";
+
+            if(Cbox_Roomtype.SelectedValue is RoomType RType)
+                CBox_RoomNo.DataSource = Context.Rooms.Local.Where(R=>R.Type == RType).ToList();
+            CBox_RoomNo.DisplayMember = "RoomNumber";
+            CBox_RoomNo.ValueMember = "RoomNumber";
+
+            Cbox_Roomtype.SelectionChangeCommitted += (s, e) =>
+            {
+                if (Cbox_Roomtype.SelectedValue is RoomType RType)
+                    CBox_RoomNo.DataSource = Context.Rooms.Local.Where(R => R.Type == RType).ToList();
+                CBox_RoomNo.DisplayMember = "RoomNumber";
+                CBox_RoomNo.ValueMember = "RoomNumber";
+            };
+
         }
 
         private void btn_submitdata_Click(object sender, EventArgs e)
@@ -108,6 +118,17 @@ namespace LabHotelManagment
             Cbox_Roomtype.ResetText();
             ChkboxFood.ResetText();
         }
+
+        private void FixDatePickerFormats()
+        {
+            DTpicker_Bdate.Format = DateTimePickerFormat.Custom;
+            DTpicker_Bdate.CustomFormat = "dd/MM/yyyy";
+            DTPicker_CheckinDate.Format = DateTimePickerFormat.Custom;
+            DTPicker_CheckinDate.CustomFormat = "dd/MM/yyyy";
+            DTPicker_CheckOutDate.Format = DateTimePickerFormat.Custom;
+            DTPicker_CheckOutDate.CustomFormat = "dd/MM/yyyy";
+        }
+
 
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace LabHotelManagment.Migrations
 {
     /// <inheritdoc />
-    public partial class Addtables : Migration
+    public partial class AddTableswithConstraints : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -58,17 +58,18 @@ namespace LabHotelManagment.Migrations
                 name: "Reservations",
                 columns: table => new
                 {
-                    GuestID = table.Column<int>(type: "int", nullable: false),
-                    RoomNumber = table.Column<int>(type: "int", nullable: false),
                     ReservationID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    GuestID = table.Column<int>(type: "int", nullable: false),
+                    RoomNumber = table.Column<int>(type: "int", nullable: false),
                     withFood = table.Column<bool>(type: "bit", nullable: false),
                     From = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    To = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    To = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    MealDeliveredFlag = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Reservations", x => new { x.GuestID, x.RoomNumber });
+                    table.PrimaryKey("PK_Reservations", x => x.ReservationID);
                     table.ForeignKey(
                         name: "FK_Reservations_Guests_GuestID",
                         column: x => x.GuestID,
@@ -82,6 +83,11 @@ namespace LabHotelManagment.Migrations
                         principalColumn: "RoomNumber",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_GuestID",
+                table: "Reservations",
+                column: "GuestID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reservations_RoomNumber",
