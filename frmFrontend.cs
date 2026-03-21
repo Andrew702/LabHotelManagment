@@ -1,5 +1,6 @@
 ﻿using LabHotelManagment.Context;
 using LabHotelManagment.Entities;
+using LabHotelManagment.Managers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 using System;
@@ -20,13 +21,21 @@ namespace LabHotelManagment
         BindingSource BSRoom = new();
 
 
+        ReservationManager ResManager;
+        List<Reservation> ReservationsList;
+
         public frmFrontend()
         {
             StartPosition = FormStartPosition.CenterScreen;
             this.FormClosed += (s, e) => Context.Dispose();
 
-            Context.Reservations.Include(R => R.Guest).
-                                 Include(R => R.Room).Load();
+            //using EF
+            //Context.Reservations.Include(R => R.Guest).
+            //                     Include(R => R.Room).Load();
+
+            //using Dapper
+            ResManager = new();
+            ReservationsList = ResManager.GetAll();
 
             InitializeComponent();
             FixDatePickerFormats();
@@ -37,7 +46,8 @@ namespace LabHotelManagment
         private void LoadReservationPage()
         {
             //data bindings for list
-            BSResv.DataSource = Context.Reservations.Local.ToBindingList();
+            //BSResv.DataSource = Context.Reservations.Local.ToBindingList();
+            BSResv.DataSource = ReservationsList;
 
             BSGuest.DataSource = BSResv;
             BSGuest.DataMember = "Guest";
@@ -68,7 +78,8 @@ namespace LabHotelManagment
 
         private void loadGridView()
         {
-            var DispData = Context.Reservations.Local.Select(r => new
+            //var DispData = Context.Reservations.Local.Select(r => new
+            var DispData = ReservationsList.Select(r => new
             {
                 ReservationID = r.ReservationID,
                 Guest = $"{r.Guest.Fname} {r.Guest.Lname}",
@@ -110,6 +121,7 @@ namespace LabHotelManagment
 
         private void btn_updatereservation_Click(object sender, EventArgs e)
         {
+            //Context.Reservations.Update(((Reservation)BSResv.Current));
             int RAffected = Context.SaveChanges();
             MessageBox.Show($"{RAffected} Rows Affected!", "Note", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }

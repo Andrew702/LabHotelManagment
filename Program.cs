@@ -12,8 +12,8 @@ namespace LabHotelManagment
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             //Application.Run(new frmKitchen());
-            //Application.Run(new frmFrontend());
-            Application.Run(new frmLogin());
+            Application.Run(new frmFrontend());
+            //Application.Run(new frmLogin());
         }
     }
 }

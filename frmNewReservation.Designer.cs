@@ -45,6 +45,8 @@
             txt_fname = new TextBox();
             btn_submitdata = new Button();
             btn_cancel = new Button();
+            Cbox_guestCheck = new ComboBox();
+            CHKbox_newguest = new CheckBox();
             SuspendLayout();
             // 
             // ChkboxFood
@@ -81,7 +83,7 @@
             // 
             DTpicker_Bdate.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             DTpicker_Bdate.Format = DateTimePickerFormat.Short;
-            DTpicker_Bdate.Location = new Point(12, 183);
+            DTpicker_Bdate.Location = new Point(12, 229);
             DTpicker_Bdate.Name = "DTpicker_Bdate";
             DTpicker_Bdate.Size = new Size(225, 33);
             DTpicker_Bdate.TabIndex = 31;
@@ -110,7 +112,7 @@
             // 
             CBox_gender.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             CBox_gender.FormattingEnabled = true;
-            CBox_gender.Location = new Point(12, 275);
+            CBox_gender.Location = new Point(12, 321);
             CBox_gender.Name = "CBox_gender";
             CBox_gender.Size = new Size(225, 33);
             CBox_gender.TabIndex = 28;
@@ -160,7 +162,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 14.25F);
-            label3.Location = new Point(83, 145);
+            label3.Location = new Point(83, 191);
             label3.Name = "label3";
             label3.Size = new Size(82, 25);
             label3.TabIndex = 25;
@@ -169,7 +171,7 @@
             // txt_pno
             // 
             txt_pno.Font = new Font("Segoe UI", 14.25F);
-            txt_pno.Location = new Point(12, 229);
+            txt_pno.Location = new Point(12, 275);
             txt_pno.Name = "txt_pno";
             txt_pno.PlaceholderText = "Phone Number";
             txt_pno.Size = new Size(225, 33);
@@ -178,7 +180,7 @@
             // txt_lname
             // 
             txt_lname.Font = new Font("Segoe UI", 14.25F);
-            txt_lname.Location = new Point(12, 99);
+            txt_lname.Location = new Point(12, 145);
             txt_lname.Name = "txt_lname";
             txt_lname.PlaceholderText = "Last Name";
             txt_lname.Size = new Size(225, 33);
@@ -187,7 +189,7 @@
             // txt_fname
             // 
             txt_fname.Font = new Font("Segoe UI", 14.25F);
-            txt_fname.Location = new Point(12, 53);
+            txt_fname.Location = new Point(12, 99);
             txt_fname.Name = "txt_fname";
             txt_fname.PlaceholderText = "First Name";
             txt_fname.Size = new Size(225, 33);
@@ -215,6 +217,28 @@
             btn_cancel.UseVisualStyleBackColor = true;
             btn_cancel.Click += btn_cancel_Click;
             // 
+            // Cbox_guestCheck
+            // 
+            Cbox_guestCheck.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Cbox_guestCheck.FormattingEnabled = true;
+            Cbox_guestCheck.Location = new Point(83, 53);
+            Cbox_guestCheck.Name = "Cbox_guestCheck";
+            Cbox_guestCheck.Size = new Size(154, 33);
+            Cbox_guestCheck.TabIndex = 27;
+            Cbox_guestCheck.Text = "Existing";
+            // 
+            // CHKbox_newguest
+            // 
+            CHKbox_newguest.AutoSize = true;
+            CHKbox_newguest.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            CHKbox_newguest.Location = new Point(12, 55);
+            CHKbox_newguest.Name = "CHKbox_newguest";
+            CHKbox_newguest.Size = new Size(69, 29);
+            CHKbox_newguest.TabIndex = 32;
+            CHKbox_newguest.Text = "New";
+            CHKbox_newguest.UseVisualStyleBackColor = true;
+            CHKbox_newguest.CheckedChanged += CHKbox_newguest_CheckedChanged;
+            // 
             // frmNewReservation
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -222,11 +246,13 @@
             ClientSize = new Size(501, 422);
             Controls.Add(btn_cancel);
             Controls.Add(btn_submitdata);
+            Controls.Add(CHKbox_newguest);
             Controls.Add(ChkboxFood);
             Controls.Add(DTPicker_CheckOutDate);
             Controls.Add(DTPicker_CheckinDate);
             Controls.Add(DTpicker_Bdate);
             Controls.Add(CBox_RoomNo);
+            Controls.Add(Cbox_guestCheck);
             Controls.Add(Cbox_Roomtype);
             Controls.Add(CBox_gender);
             Controls.Add(label4);
@@ -264,5 +290,7 @@
         private TextBox txt_fname;
         private Button btn_submitdata;
         private Button btn_cancel;
+        private ComboBox Cbox_guestCheck;
+        private CheckBox CHKbox_newguest;
     }
 }
