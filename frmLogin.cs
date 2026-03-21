@@ -6,11 +6,9 @@ namespace LabHotelManagment
 {
     public partial class frmLogin : Form
     {
-        HotelContext Context = new();
         public frmLogin()
         {
             InitializeComponent();
-            this.FormClosed += (s, e) => Context.Dispose();
             this.StartPosition = FormStartPosition.CenterScreen;
         }
         private void btn_Exit_Click(object sender, EventArgs e)
@@ -28,7 +26,8 @@ namespace LabHotelManagment
         {
             try
             {
-                var Cred = Context.Logins.Where(t => t.Username.Equals(txt_username.Text)).FirstOrDefault();
+                LoginManager Lmanager = new();
+                var Cred = Lmanager.GetOne(txt_username.Text);
                 if (Cred!= null && Cred.Password.Equals(txt_password.Text))
                 {
                     txt_username.Clear();

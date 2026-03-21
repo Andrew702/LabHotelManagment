@@ -42,6 +42,8 @@ namespace LabHotelManagment
                 CBox_RoomNo.ValueMember = "RoomNumber";
             };
 
+            
+
         }
 
         private void btn_submitdata_Click(object sender, EventArgs e)
