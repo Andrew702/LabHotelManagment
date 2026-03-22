@@ -125,7 +125,6 @@ namespace LabHotelManagment
             this.Close();
         }
 
-
         private void ClearControls()
         {
             CHKbox_newguest.Checked = true;
