@@ -22,8 +22,8 @@ namespace LabHotelManagment
         int CurrentRoomNo { set; get; }
 
 
-        ReservationManager ResManager;
-        RoomManager RoomMgr;
+        ReservationManager ResManager = new();
+        RoomManager RoomMgr = new();
         List<Reservation> ReservationsList;
         List<Room> RoomList;
 
@@ -34,14 +34,13 @@ namespace LabHotelManagment
             this.FormClosed += (s, e) => Context.Dispose();
 
             //using Dapper
-            ResManager = new();
-            RoomMgr = new();
             QRefresh();
 
             InitializeComponent();
             FixDatePickerFormats();
             loadGridView();
-            LoadReservationPage();
+            LoadBindings();
+
         }
 
         private void QRefresh()
@@ -50,6 +49,12 @@ namespace LabHotelManagment
             RoomList = RoomMgr.GetAll();
             foreach (var room in RoomList)
                 room.Reservations = ReservationsList.Where(r => r.RoomNumber == room.RoomNumber).ToList();
+
+            BSResv.DataSource = ReservationsList;
+
+            BSGuest.DataSource = BSResv;
+            BSGuest.DataMember = "Guest";
+
         }
 
         private void LoadBindings()
@@ -109,11 +114,6 @@ namespace LabHotelManagment
             };
         }
 
-        private void LoadReservationPage()
-        {
-            LoadBindings();
-        }
-
         private void loadGridView()
         {
             //var DispData = Context.Reservations.Local.Select(r => new
@@ -129,6 +129,7 @@ namespace LabHotelManagment
                 CheckoutDate = r.To,
                 WithFood = r.withFood ? "True" : "False",
             });
+
             BindingSource BSgrd = new();
             BSgrd.DataSource = DispData;
             grd_guests.DataSource = BSgrd;
@@ -138,7 +139,11 @@ namespace LabHotelManagment
         {
             this.Hide();
             frmNewReservation NewResv = new(Context);
-            NewResv.FormClosing += (s, e) => this.Show();
+            NewResv.FormClosing += (s, e) =>
+            {
+                this.Show();
+                QRefresh();
+            };
             NewResv.Show();
         }
 
@@ -182,6 +187,10 @@ namespace LabHotelManagment
                 Context.Guests.Update(((Guest)BSGuest.Current));
 
             int RAffected = Context.SaveChanges();
+            Context.Entry<Guest>((Guest)BSGuest.Current).State = EntityState.Detached;
+            Context.Entry<Reservation>((Reservation)BSResv.Current).State = EntityState.Detached;
+
+
             MessageBox.Show($"{RAffected} Rows Affected!", "Note", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
@@ -195,7 +204,9 @@ namespace LabHotelManagment
                     {
                         Context.Remove(Cresv);
                         int RAffected = Context.SaveChanges();
+                        Context.Entry<Reservation>(Cresv).State = EntityState.Detached;
                         MessageBox.Show($"{RAffected} Rows Affected!", "Note", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        QRefresh();
                     }
                     else
                         MessageBox.Show($"Error Deleting Reservation Data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -226,6 +237,7 @@ namespace LabHotelManagment
                     return false;
             return true;
         }
+
 
     }
 
